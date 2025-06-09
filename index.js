@@ -292,7 +292,7 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
   console.log(`🕵️‍♂️ Using User-Agent: ${userAgent}`);
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [`--proxy-server=${proxy}`, '--no-sandbox', '--disable-setuid-sandbox'],
   });
 
