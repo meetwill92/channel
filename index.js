@@ -313,11 +313,11 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
       timeout: 60000,
     });
 
-     await page.setContent(`<a href="https://www.technologymanias.com/" id="myLink">Visit Tech Site</a>`);
-    await page.waitForSelector('#myLink');
+    //  await page.setContent(`<a href="https://www.technologymanias.com/" id="myLink">Visit Tech Site</a>`);
+    // await page.waitForSelector('#myLink');
 
-    // Simulate human-like click
-    await page.click('#myLink', { delay: 200 });
+    // // Simulate human-like click
+    // await page.click('#myLink', { delay: 200 });
 
     //await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
 
