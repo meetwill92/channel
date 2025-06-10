@@ -292,7 +292,7 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
   console.log(`🕵️‍♂️ Using User-Agent: ${userAgent}`);
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: [`--proxy-server=${proxy}`, '--no-sandbox', '--disable-setuid-sandbox'],
   });
 
@@ -310,7 +310,7 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
 
     console.log('🚀 Navigating to technologymanias.com...');
     await page.goto('https://www.technologymanias.com/', {
-      timeout: 60000,
+      timeout: 0,
     });
 
     //  await page.setContent(`<a href="https://www.technologymanias.com/" id="myLink">Visit Tech Site</a>`);
