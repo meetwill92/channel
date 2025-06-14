@@ -145,6 +145,10 @@ function getRandomFromArray(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function visitRandomTechnologymaniasLinks(page, browser) {
   const repeatCount = getRandomInt(3, 6);
   console.log(`🔁 Visiting up to ${repeatCount} technologymanias.com links`);
@@ -280,8 +284,12 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
   .split('\n')
   .map(line => line.trim())
   .filter(line => line.length > 0);
-
+//proxy.toolip.io:331***:8c5906b99fbd1c0***:iuz5k7bp***
   const proxy = getRandomFromArray(proxyLines);
+  //= "proxy.toolip.io:31111";
+  // const proxyUsername = "tl-afab7eeaa5f7b19a796b3d4b38f93ad48ea41c63a68b3afb2fff7d079c78c39b-country-us-session-754c2";
+  // const proxyPassword = "a62bx4w5zgc5";
+  //getRandomFromArray(proxyLines);
   console.log(proxy);
 
   const userAgent = getCustomUserAgent();
@@ -293,12 +301,17 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
 
   const browser = await puppeteer.launch({
     headless: true,
-    args: [`--proxy-server=${proxy}`, '--no-sandbox', '--disable-setuid-sandbox'],
+    args: [`--proxy-server=${proxy}`, '--no-sandbox', '--disable-setuid-sandbox','--ignore-certificate-errors'],
   });
 
   try {
     const page = await browser.newPage();
     console.log('🧭 Opening new page...');
+
+  //   await page.authenticate({
+  //   username: proxyUsername,
+  //   password: proxyPassword,
+  // });
 
     await page.setUserAgent(userAgent);
     await page.setCookie(...cookies);
@@ -309,8 +322,9 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
     });
 
     console.log('🚀 Navigating to technologymanias.com...');
-    await page.goto('https://www.technologymanias.com/', {
-      timeout: 0,
+    await page.goto('https://www.technologymanias.com', {
+       waitUntil: 'load',
+      timeout: 60000,
     });
 
     //  await page.setContent(`<a href="https://www.technologymanias.com/" id="myLink">Visit Tech Site</a>`);
@@ -326,6 +340,16 @@ function updateProxyStatus(proxies, targetProxy, newStatus, proxyJsonFile) {
 
     console.log('🔗 Clicking random internal links...');
     await visitRandomTechnologymaniasLinks(page, browser);
+
+    // await wait(30000);
+
+    // await page.evaluate(() => {
+    //   const video = document.querySelector('video');
+    //   if (video) {
+    //     video.muted = true;
+    //     video.play();
+    //   }
+    // });
 
   } catch (err) {
     console.error('❌ Error during navigation:', err.message);
